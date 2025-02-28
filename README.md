@@ -8,7 +8,7 @@ See individual packages for details.
 
 ### Packages
 
-- [weather/owm - OpenWeatherMap API](../../tree/main/owm)
+- [weather/owm - OpenWeatherMap API](/owm)
 
 ---
 
