@@ -9,7 +9,7 @@ import (
 
 // Range Data //
 
-type InWeatherRange struct {
+type WeatherRange struct {
     Timestamp uint          // timestamp for when data was received
     Cod       string        // TCP code (200 = ok)
     City struct {
@@ -25,12 +25,12 @@ type InWeatherRange struct {
         Sunrise    uint
         Sunset     uint
     }
-    List []InWeather
+    List []Weather
 }
 
  // Weather Data //
 
-type InWeather struct {
+type Weather struct {
     Dt         uint         // POSIX time of forecast
     Visibility uint
     Pop        float32      // Probability for precipitation

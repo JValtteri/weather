@@ -22,17 +22,17 @@ type Api_config struct {
 
 var API_CONFIG Api_config
 
-func LoadAPIConfig(key, units, countryCode string) {
+func Config(key, units, countryCode string) {
     API_CONFIG.API_KEY    = key
     API_CONFIG.UNITS      = units
     API_CONFIG.COUNTRY    = countryCode
     API_CONFIG.CITY_LIMIT = "1"
 }
 
-func GetWeather(lat float32, lon float32) InWeatherRange {
-    var weather_obj InWeatherRange
-    var requestURL string = makeWeatherURL(lat, lon, API_CONFIG.UNITS)
-    var raw_weather []byte = makeRequest(requestURL)
+func Forecast(lat float32, lon float32) WeatherRange {
+    var weather_obj WeatherRange
+    var requestURL string = weatherURL(lat, lon, API_CONFIG.UNITS)
+    var raw_weather []byte = request(requestURL)
     err := json.Unmarshal(raw_weather, &weather_obj)
     if err != nil {
         log.Println("Weather JSON Unmarshal error:", err)
@@ -40,23 +40,25 @@ func GetWeather(lat float32, lon float32) InWeatherRange {
     return weather_obj
 }
 
-func GetCity(name string) (float32, float32) {
+func Coord(name string) (float32, float32) {
     var city_obj InCity
-    var requestURL string = makeCityURL(name, API_CONFIG.COUNTRY, API_CONFIG.CITY_LIMIT)
-    var raw_city []byte   = makeRequest(requestURL)
+    var requestURL string = cityURL(name, API_CONFIG.COUNTRY, API_CONFIG.CITY_LIMIT)
+    var raw_city []byte   = request(requestURL)
     unmarshalCity(raw_city, &city_obj)
     if len(city_obj) == 0 {
         return 0.0, 0.0
     }
-    var lat, lon float32 = getLatLon(city_obj)
+    var lat, lon float32 = coord(city_obj)
     return lat, lon
 }
 
-func GetIcon(id string) []byte {
+func Icon(id string) []byte {
     var requestURL string = makeIconURL(id)
-    var raw_icon []byte   = makeRequest(requestURL)
+    var raw_icon []byte   = request(requestURL)
     return raw_icon
 }
+
+ // unexported
 
 func unmarshalCity(raw_city []byte, city_obj *InCity) {
     err := json.Unmarshal(raw_city, city_obj)
@@ -65,13 +67,13 @@ func unmarshalCity(raw_city []byte, city_obj *InCity) {
     }
 }
 
-func getLatLon(city_obj InCity) (float32, float32) {
+func coord(city_obj InCity) (float32, float32) {
     var lat float32 = city_obj[0].Lat
     var lon float32 = city_obj[0].Lon
     return lat, lon
 }
 
-func makeWeatherURL(lat, lon float32, units string) string {
+func weatherURL(lat, lon float32, units string) string {
     url := ""
     url = strings.Replace(FORECAST_URL, "{LAT}",     str_f(lat), 1)
     url = strings.Replace(url,          "{LON}",     str_f(lon), 1)
@@ -80,7 +82,7 @@ func makeWeatherURL(lat, lon float32, units string) string {
     return url
 }
 
-func makeCityURL(name, country, limit string) string {
+func cityURL(name, country, limit string) string {
     url := ""
     url = strings.Replace(CITY_URL, "{CITY_NAME}",    name, 1)
     url = strings.Replace(url,      "{COUNTRY_CODE}", country, 1)
@@ -96,7 +98,7 @@ func makeIconURL(id string) string {
 }
 
 // Make a request to chosen address
-func makeRequest(address string) []byte {
+func request(address string) []byte {
     resp, err := http.Get(address)
     if err != nil {
         log.Printf("Welp! GET from %s failed\n", address)
