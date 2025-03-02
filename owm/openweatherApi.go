@@ -16,7 +16,7 @@ import (
 
 const FORECAST_URL string = "https://api.openweathermap.org/data/2.5/forecast?lat={LAT}&lon={LON}&units={UNITS}&appid={API_KEY}"
 const CITY_URL string = "https://api.openweathermap.org/geo/1.0/direct?q={CITY_NAME},{COUNTRY_CODE}&limit={LIMIT}&appid={API_KEY}"
-const ICON_URL = "https://openweathermap.org/img/wn/{ICON}@2x.png"
+const ICON_URL string = "https://openweathermap.org/img/wn/{ICON}@2x.png"
 
 /* Structure to store the configuration
  * Populate with owm.Config(key, units, countryCode string)
@@ -26,17 +26,19 @@ type Api_config struct {
     UNITS      string // metric, imperial, standard (Kelvin)
     COUNTRY    string // ISO 3166 country code
     CITY_LIMIT string
+    NETWORK    bool   // Set to true. False disables requests
 }
 
 var API_CONFIG Api_config
 
 /* Run Config() first, to initialize the API
  */
-func Config(key, units, countryCode string) {
+func Config(key, units, countryCode string, network bool) {
     API_CONFIG.API_KEY    = key
     API_CONFIG.UNITS      = units
     API_CONFIG.COUNTRY    = countryCode
     API_CONFIG.CITY_LIMIT = "1"
+    API_CONFIG.NETWORK    = network
 }
 
 /* Forecast fetches forecast data by coordinates and returns a WeatherRange object
@@ -69,7 +71,7 @@ func Coord(name string) (float32, float32) {
 /* Icon returns the icon image in byte form.
  */
 func Icon(id string) []byte {
-    var requestURL string = makeIconURL(id)
+    var requestURL string = iconURL(id)
     var raw_icon []byte   = request(requestURL)
     return raw_icon
 }
@@ -107,7 +109,7 @@ func cityURL(name, country, limit string) string {
     return url
 }
 
-func makeIconURL(id string) string {
+func iconURL(id string) string {
     url := ""
     url = strings.Replace(ICON_URL, "{ICON}", id, 1)
     return url
@@ -115,6 +117,10 @@ func makeIconURL(id string) string {
 
 // Make a request to chosen address
 func request(address string) []byte {
+    if !API_CONFIG.NETWORK {
+        log.Println("Warning: API_CONFIG.NETWORK = false")
+        return nil
+    }
     resp, err := http.Get(address)
     if err != nil {
         log.Printf("Welp! GET from %s failed\n", address)
