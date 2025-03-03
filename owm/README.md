@@ -4,9 +4,9 @@ Package for interfacing with openweathermap.org basic APIs
 
 ### `owm.Config()`
 ```go
-func Config(key, units, countryCode string)
+func Config(key, units, countryCode string, network bool)
 ```
-Config initializes the API. Run Config() before using the API.
+Config initializes the API. Run Config() before using the API. Set network to true.
 
 ### `owm.Forecast()`
 ```go
