@@ -11,12 +11,13 @@ const EXP_CURL string = "https://api.openweathermap.org/geo/1.0/direct?q=atlanti
 const EXP_IURL string = "https://openweathermap.org/img/wn/NN@2x.png"
 
 func setup() {
-    Config("test", "metric", "NN", false)
+    Config("test", "metric", "NN")
+    API_CONFIG.NETWORK = false
 }
 
 func TestRequestDisable(t *testing.T) {
     if request(TEST_URL) != nil {
-        t.Errorf("Network disable failed: %v", API_CONFIG.NETWORK)
+        t.Fatalf("Network disable failed: %v", API_CONFIG.NETWORK)
     }
 }
 

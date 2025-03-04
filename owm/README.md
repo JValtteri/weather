@@ -29,9 +29,19 @@ Icon returns the icon PNG image in byte form.
 
 The `id` is a icon code that is found inside the forecast object
 
+### `owm.API_CONFIG.NETWORK`
+```go
+owm.API_CONFIG.NETWORK bool
+```
+This variable is only used for testing. If you need to perform tests and want to disable networking, i.e. disable requests, set this variable to `false`.
+```go
+owm.API_CONFIG.NETWORK = false
+```
+`owm.Config()` sets this to `true`. If you need networking disabled, set `owm.API_CONFIG.NETWORK` to `false` **after** calling `owm.Config()`, not before.
+
 ### Response objects
 
-### [`input_types.go`](input_types.go)
+### See: [`input_types.go`](input_types.go)
 
 Some fields may not be implemented
 

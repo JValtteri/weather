@@ -33,12 +33,12 @@ var API_CONFIG Api_config
 
 /* Run Config() first, to initialize the API
  */
-func Config(key, units, countryCode string, network bool) {
+func Config(key, units, countryCode string) {
     API_CONFIG.API_KEY    = key
     API_CONFIG.UNITS      = units
     API_CONFIG.COUNTRY    = countryCode
     API_CONFIG.CITY_LIMIT = "1"
-    API_CONFIG.NETWORK    = network
+    API_CONFIG.NETWORK    = true
 }
 
 /* Forecast fetches forecast data by coordinates and returns a WeatherRange object
