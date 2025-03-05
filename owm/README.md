@@ -1,4 +1,5 @@
 # OpenWeatherMap Go API - weather/owm
+[![OWM Build and Test](https://github.com/JValtteri/weather/actions/workflows/go-test.yaml/badge.svg)](https://github.com/JValtteri/weather/actions/workflows/go-test.yaml)
 
 Package for interfacing with openweathermap.org basic APIs
 
