@@ -3,6 +3,7 @@ package owm
 /* OpenWeatherMap API library OWM
  * Library for fetching forecasts using the
  * free OpenWeatherMap API
+ * https://openweathermap.org/
  */
 
 import (
@@ -25,7 +26,7 @@ type Api_config struct {
     API_KEY    string
     UNITS      string // metric, imperial, standard (Kelvin)
     COUNTRY    string // ISO 3166 country code
-    CITY_LIMIT string
+    CITY_LIMIT string // Limit region where to search for the city name
     NETWORK    bool   // Set to true. False disables requests
 }
 
