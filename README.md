@@ -1,7 +1,8 @@
 # Weather:
 
 ## A collection of compatible Go weather API packages
-[![OWM Build and Test](https://github.com/JValtteri/weather/actions/workflows/go-test.yaml/badge.svg)](https://github.com/JValtteri/weather/actions/workflows/go-test.yaml)
+[![OM Build and Test](https://github.com/JValtteri/weather/actions/workflows/om-test.yaml/badge.svg)](https://github.com/JValtteri/weather/actions/workflows/om-test.yaml)
+[![OWM Build and Test](https://github.com/JValtteri/weather/actions/workflows/omw-test.yaml/badge.svg)](https://github.com/JValtteri/weather/actions/workflows/omw-test.yaml)
 
 These package(s) provide a simple and easy way to deal with requests to weather data sources.
 
