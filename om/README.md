@@ -1,36 +1,31 @@
-# OpenWeatherMap Go API - weather/owm
-[![OWM Build and Test](https://github.com/JValtteri/weather/actions/workflows/omw-test.yaml/badge.svg)](https://github.com/JValtteri/weather/actions/workflows/omw-test.yaml)
+# Open-Meteo Go API - weather/om
+[![OM Build and Test](https://github.com/JValtteri/weather/actions/workflows/om-test.yaml/badge.svg)](https://github.com/JValtteri/weather/actions/workflows/om-test.yaml)
 
-Package for interfacing with openweathermap.org basic APIs
+Package for interfacing with Open-Meteo APIs
 
-### `owm.Config()`
+### `om.Config()`
 ```go
 func Config(key, units, countryCode string, network bool)
 ```
 Config initializes the API. Run Config() before using the API. Set network to true.
 
-### `owm.Forecast()`
+### `om.Forecast()`
 ```go
 func Forecast(lat float32, lon float32) WeatherRange
 ```
 Forecast fetches forecast data by coordinates and returns a WeatherRange object.
 Use Coord to find the coordinates of a cities.
 
-### `owm.Coord()`
+### `om.Icon()`
 ```go
-func Coord(name string) (float32, float32)
-```
-Coord returns the coordinates for the given city
-
-### `owm.Icon()`
-```go
-func Icon(id string) []byte
+func Icon(id string, day bool) []byte
 ```
 Icon returns the icon PNG image in byte form.
 
 The `id` is a icon code that is found inside the forecast object
+`day` is a bool value indicating whether to fetch a day or night version of the icon
 
-### `owm.API_CONFIG.NETWORK`
+### `om.API_CONFIG.NETWORK`
 ```go
 owm.API_CONFIG.NETWORK bool
 ```
@@ -38,7 +33,7 @@ This variable is only used for testing. If you need to perform tests and want to
 ```go
 owm.API_CONFIG.NETWORK = false
 ```
-`owm.Config()` sets this to `true`. If you need networking disabled, set `owm.API_CONFIG.NETWORK` to `false` **after** calling `owm.Config()`, not before.
+`om.Config()` sets this to `true`. If you need networking disabled, set `om.API_CONFIG.NETWORK` to `false` **after** calling `om.Config()`, not before.
 
 ### Response objects
 
