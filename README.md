@@ -11,6 +11,7 @@ See individual packages for details.
 ### Packages
 
 - [weather/owm - OpenWeatherMap API](/owm)
+- [weather/om - Open-Meteo API](/om)
 
 ---
 
