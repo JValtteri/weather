@@ -2,6 +2,8 @@ name: OWM Build and Test
 on:
   push:
     branches: [main, actions]
+  pull_request:
+    branches: [main, actions]
 jobs:
   build:
     runs-on: ubuntu-latest
