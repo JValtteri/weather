@@ -15,7 +15,7 @@ type WeatherRange struct {
     UTC_OFFSET_SECONDS      int
     Timezone                string
     Timezone_abbreviation   string
-    Elevation               int
+    Elevation               float32
     Hourly_units struct {
         Time                    string
         Temperature_2m          string
@@ -75,7 +75,7 @@ type WeatherRange struct {
         Soil_temperature_0cm    []float32
         Soil_moisture_0_to_1cm  []float32
         Uv_index                []float32
-        Is_day                  []bool
+        Is_day                  []int
         Sunshine_duration       []int
         Wet_bulb_temperature_2m []float32
         Boundary_layer_height   []int
