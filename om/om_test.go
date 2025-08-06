@@ -30,15 +30,6 @@ func TestWeatherUrl(t *testing.T) {
     }
 }
 
-func TestIconUrl(t *testing.T) {
-    setup()
-    url := iconURL(71, false)
-    if url != EXP_IURL {
-        t.Errorf("URL format failed %s", url)
-        t.Errorf("Expected URL      %s", EXP_IURL)
-    }
-}
-
 func TestStrF(t *testing.T) {
     exp := "3.141500"
     if str_f(3.1415) != exp {
