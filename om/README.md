@@ -5,9 +5,11 @@ Package for interfacing with Open-Meteo APIs
 
 ### `om.Config()`
 ```go
-func Config(key, units, countryCode string, network bool)
+func Config(key, units, model string, network bool)
 ```
-Config initializes the API. Run Config() before using the API. Set network to true.
+Config initializes the API. Run Config() before using the API. Set network to `true`.
+`model` is the weather model to use. If left empty `""`, uses `"best_model"`, which automatically chooses the model estimated to be the best for the selected region.
+`units` is not yet supported. Response unists are in Celsius, mm and m/s
 
 ### `om.Forecast()`
 ```go

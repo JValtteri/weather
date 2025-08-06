@@ -15,8 +15,6 @@ import (
     "io"
 )
 
-const MODEL = "best_match"
-
 const FORECAST_URL string = "https://api.open-meteo.com/v1/forecast?latitude={LAT}&longitude={LON}&timezone=auto&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,weather_code,pressure_msl,surface_pressure,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,evapotranspiration,wind_speed_10m,wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,soil_temperature_0cm,soil_moisture_0_to_1cm,uv_index,is_day,sunshine_duration,wet_bulb_temperature_2m,boundary_layer_height,direct_radiation,diffuse_radiation&models={MODEL}&timeformat=unixtime&wind_speed_unit=ms"
 
 /* Structure to store the configuration
@@ -25,7 +23,6 @@ const FORECAST_URL string = "https://api.open-meteo.com/v1/forecast?latitude={LA
 type Api_config struct {
     API_KEY    string // Free version doesn't require a key
     UNITS      string // NOT IMPLEMENTED YET { (metric, imperial, standard (Kelvin) }
-    COUNTRY    string // ISO 3166 country code
     NETWORK    bool   // Set to true. False disables requests
     MODEL      string // Weather model to use
 }
@@ -34,12 +31,14 @@ var API_CONFIG Api_config
 
 /* Run Config() first, to initialize the API
  */
-func Config(key, units, countryCode string) {
+func Config(key, units, model string) {
     API_CONFIG.API_KEY    = key
     API_CONFIG.UNITS      = units
-    API_CONFIG.COUNTRY    = countryCode
     API_CONFIG.NETWORK    = true
     API_CONFIG.MODEL      = "best_match"
+    if model != "" {
+        API_CONFIG.MODEL = model
+    }
 }
 
 /* Forecast fetches forecast data by coordinates and returns a WeatherRange object
