@@ -18,8 +18,6 @@ import (
 const MODEL = "best_match"
 
 const FORECAST_URL string = "https://api.open-meteo.com/v1/forecast?latitude={LAT}&longitude={LON}&timezone=auto&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,weather_code,pressure_msl,surface_pressure,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,evapotranspiration,wind_speed_10m,wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,soil_temperature_0cm,soil_moisture_0_to_1cm,uv_index,is_day,sunshine_duration,wet_bulb_temperature_2m,boundary_layer_height,direct_radiation,diffuse_radiation&models={MODEL}&timeformat=unixtime&wind_speed_unit=ms"
-//const CITY_URL string = ""
-const ICON_URL string = "https://openweathermap.org/img/wn/{ICON}@2x.png"
 
 /* Structure to store the configuration
  * Populate with owm.Config(key, units, countryCode string)
@@ -57,14 +55,6 @@ func Forecast(lat float32, lon float32) WeatherRange {
     return weather_obj
 }
 
-/* Icon returns the icon image in byte form.
- */
-func Icon(id int, day bool) []byte {
-    var requestURL string = iconURL(id, day)
-    var raw_icon []byte   = request(requestURL)
-    return raw_icon
-}
-
  // unexported
 
 func weatherURL(lat, lon float32, units string) string {
@@ -74,59 +64,6 @@ func weatherURL(lat, lon float32, units string) string {
     url = strings.Replace(url,          "{UNITS}",   units, 1)
     url = strings.Replace(url,          "{API_KEY}", API_CONFIG.API_KEY, 1)
     url = strings.Replace(url,          "{MODEL}",   API_CONFIG.MODEL, 1)
-    return url
-}
-
-// Translates WNO WW codes to OWM weather image codes
-var wmoToOwm = map[int]string{
-    // Clear
-    0: "01",
-    // Clouds
-    1: "02",
-    2: "03",
-    3: "04",
-    // Fog
-    45: "50",
-    48: "50",
-    // Drizzle
-    51: "10",
-    53: "10",
-    55: "10",
-    // Rain
-    61: "10",
-    63: "09",
-    65: "09",
-    // Freezing Rain
-    66: "09",
-    67: "09",
-    // Snow
-    71: "13",
-    73: "13",
-    75: "13",
-    // Hail
-    77: "13",
-    // Showers
-    80: "10",
-    81: "10",
-    82: "09",
-    // Snow
-    85: "13",
-    86: "13",
-    // Thunder
-    95: "11",
-    96: "11",
-    99: "11",
-}
-
-func iconURL(id int, day bool) string {
-    var iconId string
-    if day {
-        iconId = wmoToOwm[id] + "d"
-    } else {
-        iconId = wmoToOwm[id] + "n"
-    }
-    url := ""
-    url = strings.Replace(ICON_URL, "{ICON}", iconId, 1)
     return url
 }
 
