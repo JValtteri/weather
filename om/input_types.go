@@ -65,7 +65,7 @@ type WeatherRange struct {
         Cloud_cover_low         []int
         Cloud_cover_mid         []int
         Cloud_cover_high        []int
-        Visibility              []int
+        Visibility              []float32
         Elevation               []float32
         Wind_speed_10m          []float32
         Wind_speed_80m          []float32
@@ -76,9 +76,9 @@ type WeatherRange struct {
         Soil_moisture_0_to_1cm  []float32
         Uv_index                []float32
         Is_day                  []int
-        Sunshine_duration       []int
+        Sunshine_duration       []float32
         Wet_bulb_temperature_2m []float32
-        Boundary_layer_height   []int
+        Boundary_layer_height   []float32
         Direct_radiation        []float32
         Diffuse_radiation       []float32
     }
