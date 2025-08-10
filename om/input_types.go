@@ -26,7 +26,7 @@ type WeatherRange struct {
         Precipitation           string
         Rain                    string
         Weather_code            string
-        pressure_msl            string
+        Pressure_msl            string
         Surface_pressure        string
         Cloud_cover             string
         Cloud_cover_low         string
@@ -59,7 +59,7 @@ type WeatherRange struct {
         Precipitation           []float32
         Rain                    []float32
         Weather_code            []int
-        pressure_msl            []float32
+        Pressure_msl            []float32
         Surface_pressure        []float32
         Cloud_cover             []int
         Cloud_cover_low         []int
