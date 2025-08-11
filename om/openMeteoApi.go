@@ -32,25 +32,19 @@ var API_CONFIG Api_config
 
 /* Run Config() first, to initialize the API
  */
-func Config(key string, units string, model string, length string) {
+func Config(key string, units string) {
     API_CONFIG.API_KEY    = key
-    API_CONFIG.UNITS      = units
     API_CONFIG.NETWORK    = true
+    API_CONFIG.UNITS      = "metric"
     API_CONFIG.MODEL      = "best_match"
-    if model != "" {
-        API_CONFIG.MODEL  = model
-    }
     API_CONFIG.LENGTH     = "7"
-    if length != "" {
-        API_CONFIG.LENGTH  = length
-    }
 }
 
 /* Forecast fetches forecast data by coordinates and returns a WeatherRange object
  */
-func Forecast(lat float32, lon float32) WeatherRange {
+func Forecast(lat float32, lon float32, model string, length string, units string) WeatherRange {
     var weather_obj WeatherRange
-    var requestURL string = weatherURL(lat, lon, API_CONFIG.UNITS)
+    var requestURL string = weatherURL(lat, lon, model, length, units)
     var raw_weather []byte = request(requestURL)
     err := json.Unmarshal(raw_weather, &weather_obj)
     if err != nil {
@@ -61,15 +55,28 @@ func Forecast(lat float32, lon float32) WeatherRange {
 
 // unexported
 
+// Returns a value for a key, or returns the default, if empty
+// def is the default value
+// value is the candidate value
+func defaults(def string, value string) string {
+    if value != "" {
+        return value
+    }
+    return def
+}
+
 // Assembles the request URL
-func weatherURL(lat, lon float32, units string) string {
+func weatherURL(lat, lon float32, model string, length string, units string) string {
     url := ""
+    units = defaults(API_CONFIG.UNITS, units)
+    model = defaults(API_CONFIG.MODEL, model)
+    length = defaults(API_CONFIG.LENGTH, length)
     url = strings.Replace(FORECAST_URL, "{LAT}",     str_f(lat), 1)
     url = strings.Replace(url,          "{LON}",     str_f(lon), 1)
     url = strings.Replace(url,          "{UNITS}",   units, 1)
     url = strings.Replace(url,          "{API_KEY}", API_CONFIG.API_KEY, 1)
-    url = strings.Replace(url,          "{MODEL}",   API_CONFIG.MODEL, 1)
-    url = strings.Replace(url,          "{LENGTH}",  API_CONFIG.LENGTH, 1)
+    url = strings.Replace(url,          "{MODEL}",   model, 1)
+    url = strings.Replace(url,          "{LENGTH}",  length, 1)
     return url
 }
 
